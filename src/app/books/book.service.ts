@@ -1,9 +1,11 @@
-import { inject, Service, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { Book } from '../book/book';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 
-@Service()
+@Injectable({
+  providedIn: 'root'
+})
 export class BookService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = 'http://localhost:3000/books';
@@ -15,6 +17,19 @@ export class BookService {
   readonly books = this.booksSignal.asReadonly();
   readonly loading = this.loadingSignal.asReadonly();
   readonly error = this.errorSignal.asReadonly();
+
+  // Nombre total de livres
+readonly totalBooks = computed(() => this.booksSignal().length);
+
+// Nombre de livres lus
+readonly readBooks = computed(() =>
+  this.booksSignal().filter(book => book.read).length
+);
+
+// Nombre de livres non lus
+readonly unreadBooks = computed(() =>
+  this.booksSignal().filter(book => !book.read).length
+);
 
   constructor() {
     this.loadBooks();
