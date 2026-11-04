@@ -1,0 +1,74 @@
+<article class="media-card">
+
+  <div
+    class="poster"
+    [class.poster-movie]="item().type === 'movie'"
+    [class.poster-series]="item().type === 'series'"
+    [class.poster-anime]="item().type === 'anime'"
+    [class.poster-documentary]="item().type === 'documentary'"
+  >
+    <span class="poster-type">
+      @switch (item().type) {
+        @case ('movie') { FILM }
+        @case ('series') { SÉRIE }
+        @case ('anime') { ANIMÉ }
+        @case ('documentary') { DOCUMENTAIRE }
+      }
+    </span>
+
+    <strong>{{ item().title }}</strong>
+
+    <span class="poster-symbol">✦</span>
+  </div>
+
+  <div class="card-content">
+
+    <div class="card-title-row">
+      <h3>
+        <a [routerLink]="['/watchlist', item().id]">
+          {{ item().title }}
+        </a>
+      </h3>
+
+      @if (item().rating !== undefined) {
+        <span class="rating">★ {{ item().rating }}/5</span>
+      }
+    </div>
+
+    <p class="platform">{{ item().platform }}</p>
+
+    <span
+      class="status"
+      [class.status-planned]="item().status === 'planned'"
+      [class.status-progress]="item().status === 'in-progress'"
+      [class.status-done]="item().status === 'done'"
+    >
+      @switch (item().status) {
+        @case ('planned') { À regarder }
+        @case ('in-progress') { En cours }
+        @case ('done') { Terminé }
+      }
+    </span>
+
+    <small>Ajouté le {{ item().addedAt | date:'mediumDate' }}</small>
+
+    <div class="actions">
+      <a [routerLink]="['/watchlist', item().id, 'edit']">
+        Modifier
+      </a>
+
+      <button type="button" (click)="onAdvanceClick()">
+        Changer le statut
+      </button>
+
+      <button
+        type="button"
+        class="danger"
+        (click)="onRemoveClick()"
+      >
+        Supprimer
+      </button>
+    </div>
+
+  </div>
+</article>

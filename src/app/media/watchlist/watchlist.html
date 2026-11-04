@@ -1,0 +1,194 @@
+<section class="dashboard">
+
+  @if (loading()) {
+    <div class="loading-state">
+      <div class="loader"></div>
+      <p>Chargement de ta collection...</p>
+    </div>
+  } @else {
+
+    @if (error(); as message) {
+      <div class="error-banner" role="alert">
+        <p>{{ message }}</p>
+        <button type="button" (click)="onReload()">Réessayer</button>
+      </div>
+    }
+
+    @if (activeFilter() === 'all' && items().length > 0) {
+      @if (items()[0]; as featured) {
+        <section class="hero">
+          <div class="hero-content">
+            <span class="hero-label">À LA UNE DE TA WATCHLIST</span>
+
+            <h1>{{ featured.title }}</h1>
+
+            <p>
+              @switch (featured.type) {
+                @case ('movie') { Film }
+                @case ('series') { Série }
+                @case ('anime') { Animé }
+                @case ('documentary') { Documentaire }
+              }
+              ·
+              @switch (featured.status) {
+                @case ('planned') { À regarder }
+                @case ('in-progress') { En cours }
+                @case ('done') { Terminé }
+              }
+            </p>
+
+            <a class="hero-button" [routerLink]="['/watchlist', featured.id]">
+              Découvrir le média →
+            </a>
+          </div>
+
+          <div class="hero-decoration">
+            <span>MY</span>
+            <strong>WATCHLIST</strong>
+          </div>
+        </section>
+      }
+    }
+
+    <div class="dashboard-grid">
+
+      <section class="catalogue" id="catalogue">
+
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">TA COLLECTION</span>
+           <h2>{{ sectionTitle() }}</h2>
+          </div>
+
+          <a routerLink="/watchlist/new" class="text-link">
+            + Ajouter un média
+          </a>
+        </div>
+
+        <div class="statistics" id="statistiques">
+          <article class="stat-card">
+            <span class="stat-icon">▦</span>
+            <div>
+              <strong>{{ totalItems() }}</strong>
+              <p>Médias au total</p>
+            </div>
+          </article>
+
+          <article class="stat-card">
+            <span class="stat-icon">◷</span>
+            <div>
+              <strong>{{ plannedItems() }}</strong>
+              <p>À regarder</p>
+            </div>
+          </article>
+
+          <article class="stat-card">
+            <span class="stat-icon">✓</span>
+            <div>
+              <strong>{{ completedItems() }}</strong>
+              <p>Terminés</p>
+            </div>
+          </article>
+        </div>
+
+        <<h3 class="catalogue-title">{{ filteredItems().length }} média(s)</h3>
+
+<nav class="filters" aria-label="Filtrer par statut">
+  @for (filter of filters; track filter.value) {
+    <a
+      routerLink="/"
+      [queryParams]="filter.value === 'all' ? {} : { status: filter.value }"
+      [class.active]="activeFilter() === filter.value"
+      [attr.aria-current]="activeFilter() === filter.value ? 'true' : null"
+    >
+      {{ filter.label }}
+    </a>
+  }
+</nav>
+
+        <div class="media-list">
+  @for (item of filteredItems(); track item.id) {
+    <app-media-card
+      [item]="item"
+      (advanceStatus)="onAdvanceStatus($event)"
+      (remove)="onRemove($event)"
+    />
+  } @empty {
+    @if (!error()) {
+      @if (items().length === 0) {
+        <div class="empty-state">
+          <span aria-hidden="true">▦</span>
+          <h3>Ta collection est vide</h3>
+          <p>Ajoute ton premier film, animé ou documentaire.</p>
+          <a routerLink="/watchlist/new">Ajouter mon premier média</a>
+        </div>
+      } @else {
+        <div class="empty-state">
+          <span aria-hidden="true">▦</span>
+          <h3>Aucun média dans cette catégorie</h3>
+          <p>Change de filtre pour voir le reste de ta collection.</p>
+          <a routerLink="/">Voir toute la collection</a>
+        </div>
+      }
+    }
+  }
+</div>
+
+      </section>
+
+      <aside class="right-panel">
+
+        <section id="en-cours">
+          <div class="right-heading">
+            <h3>En cours</h3>
+            <span>▶</span>
+          </div>
+
+          @for (item of items(); track item.id) {
+            @if (item.status === 'in-progress') {
+              <a class="continue-item" [routerLink]="['/watchlist', item.id]">
+                <div class="mini-poster">
+                  {{ item.title.charAt(0).toUpperCase() }}
+                </div>
+
+                <div>
+                  <strong>{{ item.title }}</strong>
+                  <p>{{ item.platform }}</p>
+                  <span>Continuer →</span>
+                </div>
+              </a>
+            }
+          } @empty {
+            <p class="muted">Aucun média pour le moment.</p>
+          }
+        </section>
+
+        <section class="top-rated">
+          <div class="right-heading">
+            <h3>Les mieux notés</h3>
+            <span>★</span>
+          </div>
+
+          @for (item of items(); track item.id) {
+            @if (item.rating !== undefined) {
+              <a class="rated-item" [routerLink]="['/watchlist', item.id]">
+                <span>{{ item.title }}</span>
+                <strong>★ {{ item.rating }}/5</strong>
+              </a>
+            }
+          } @empty {
+            <p class="muted">Pas encore de note.</p>
+          }
+        </section>
+
+        <section class="quick-add">
+          <h3>Une nouvelle découverte ?</h3>
+          <p>Ajoute-la à ta collection pour ne pas l'oublier.</p>
+          <a routerLink="/watchlist/new">Ajouter un média +</a>
+        </section>
+
+      </aside>
+
+    </div>
+  }
+</section>

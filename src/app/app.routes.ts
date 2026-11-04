@@ -1,11 +1,22 @@
 import { Routes } from '@angular/router';
-import { BookList } from './books/book-list/book-list';
-import { BookDetail } from './books/book-detail/book-detail';
-import { BookForm } from './books/book-form/book-form';
+
+import { Watchlist } from './media/watchlist/watchlist';
+import { MediaDetail } from './media/media-detail/media-detail';
+import { MediaForm } from './media/media-form/media-form';
 
 export const routes: Routes = [
-  { path: '', component: BookList },
-  { path: 'books/new', component: BookForm },
-  { path: 'books/:id/edit', component: BookForm },
-  { path: 'books/:id', component: BookDetail },
+  // Page principale : liste des médias
+  { path: '', component: Watchlist },
+
+  // Ajouter un média
+  { path: 'watchlist/new', component: MediaForm },
+
+  // Modifier un média
+  { path: 'watchlist/:id/edit', component: MediaForm },
+
+  // Afficher le détail d'un média
+  { path: 'watchlist/:id', component: MediaDetail },
+
+  // Redirection des URL inconnues
+  { path: '**', redirectTo: '' },
 ];
