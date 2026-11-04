@@ -1,0 +1,23 @@
+:host {
+  display: block;
+  padding: 1rem;
+}
+
+h2 {
+  margin-bottom: 1rem;
+}
+
+p {
+  margin: 0.75rem 0;
+}
+
+a {
+  display: inline-block;
+  margin-top: 1rem;
+  color: #2563eb;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}

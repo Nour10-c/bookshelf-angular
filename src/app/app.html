@@ -1,3 +1,85 @@
-<h1>{{ title() }}</h1>
+<div class="app-layout">
 
-<router-outlet />
+  <aside class="sidebar">
+    <a class="brand" routerLink="/">
+      <span class="brand-icon">M</span>
+      <span>MY<br />WATCHLIST</span>
+    </a>
+
+    <div class="sidebar-section">
+      <p class="sidebar-label">MENU</p>
+
+      <nav aria-label="Menu principal">
+    <a
+    routerLink="/"
+    routerLinkActive="active"
+    ariaCurrentWhenActive="page"
+    [routerLinkActiveOptions]="{ exact: true }"
+     >
+    <span aria-hidden="true">⌂</span> Accueil
+      </a>
+
+    <a routerLink="/watchlist/new" routerLinkActive="active" ariaCurrentWhenActive="page">
+    <span aria-hidden="true">＋</span> Ajouter un média
+  </a>
+</nav>
+    </div>
+
+    <div class="sidebar-section">
+      <p class="sidebar-label">MA BIBLIOTHÈQUE</p>
+
+      <nav aria-label="Ma bibliothèque">
+  <a
+    routerLink="/"
+    [queryParams]="{ status: 'planned' }"
+    routerLinkActive="active"
+    ariaCurrentWhenActive="page"
+  >
+    <span aria-hidden="true">◷</span> À regarder
+  </a>
+
+  <a
+    routerLink="/"
+    [queryParams]="{ status: 'in-progress' }"
+    routerLinkActive="active"
+    ariaCurrentWhenActive="page"
+  >
+    <span aria-hidden="true">▶</span> En cours
+  </a>
+
+  <a
+    routerLink="/"
+    [queryParams]="{ status: 'done' }"
+    routerLinkActive="active"
+    ariaCurrentWhenActive="page"
+  >
+    <span aria-hidden="true">✓</span> Terminés
+  </a>
+</nav>
+    </div>
+
+    <div class="sidebar-footer">
+      <span class="status-dot"></span>
+      Ton espace personnel
+    </div>
+  </aside>
+
+  <div class="main-area">
+
+    <header class="topbar">
+      <div>
+        <span class="topbar-title">TON UNIVERS CINÉMA</span>
+        <p>Retrouve tes prochaines découvertes.</p>
+      </div>
+
+      <a class="add-button" routerLink="/watchlist/new">
+        ＋ Ajouter
+      </a>
+    </header>
+
+    <main class="page-content">
+      <router-outlet />
+    </main>
+
+  </div>
+</div>

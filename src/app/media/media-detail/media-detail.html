@@ -1,0 +1,40 @@
+@if (loading()) {
+  <p>Chargement du média...</p>
+} @else {
+  @if (item(); as media) {
+    <h2>{{ media.title }}</h2>
+
+    <p>Plateforme : {{ media.platform }}</p>
+
+    <p>
+      Type :
+      @switch (media.type) {
+        @case ('movie') { Film }
+        @case ('series') { Série }
+        @case ('anime') { Animé }
+        @case ('documentary') { Documentaire }
+      }
+    </p>
+
+    <p>
+      Statut :
+      @switch (media.status) {
+        @case ('planned') { À regarder }
+        @case ('in-progress') { En cours }
+        @case ('done') { Terminé }
+      }
+    </p>
+
+    @if (media.rating !== undefined) {
+      <p>Note : {{ media.rating }}/5</p>
+    }
+
+    <a [routerLink]="['/watchlist', media.id, 'edit']">
+      Modifier
+    </a>
+  } @else {
+    <p>Média introuvable.</p>
+  }
+}
+
+<p><a routerLink="/">← Retour à ma Watchlist</a></p>

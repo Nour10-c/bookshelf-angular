@@ -1,0 +1,105 @@
+@if (loading() && isEdit()) {
+  <p>Chargement du média...</p>
+} @else if (isEdit() && !item()) {
+  <p>Média introuvable.</p>
+  <a routerLink="/">Retour à la Watchlist</a>
+} @else {
+  <h2>{{ isEdit() ? 'Modifier un média' : 'Ajouter un média' }}</h2>
+
+  <form [formGroup]="mediaForm" (ngSubmit)="onSubmit()">
+
+    <div>
+      <label for="title">Titre</label>
+
+      <input
+        id="title"
+        type="text"
+        formControlName="title"
+        placeholder="Exemple : Interstellar"
+      />
+
+      @if (
+        mediaForm.controls.title.invalid &&
+        mediaForm.controls.title.touched
+      ) {
+        <p class="error">
+          Le titre est obligatoire et doit contenir au moins 2 caractères.
+        </p>
+      }
+    </div>
+
+    <div>
+      <label for="type">Type de média</label>
+
+      <select id="type" formControlName="type">
+        <option value="movie">Film</option>
+        <option value="series">Série</option>
+        <option value="anime">Animé</option>
+        <option value="documentary">Documentaire</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="platform">Plateforme</label>
+
+      <input
+        id="platform"
+        type="text"
+        formControlName="platform"
+        placeholder="Exemple : Netflix, Prime Video..."
+      />
+
+      @if (
+        mediaForm.controls.platform.invalid &&
+        mediaForm.controls.platform.touched
+      ) {
+        <p class="error">
+          La plateforme est obligatoire.
+        </p>
+      }
+    </div>
+
+    <div>
+      <label for="status">Statut</label>
+
+      <select id="status" formControlName="status">
+        <option value="planned">À regarder</option>
+        <option value="in-progress">En cours</option>
+        <option value="done">Terminé</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="rating">Note sur 5 (facultative)</label>
+
+      <input
+        id="rating"
+        type="number"
+        min="1"
+        max="5"
+        formControlName="rating"
+        placeholder="Exemple : 4"
+      />
+
+      @if (
+        mediaForm.controls.rating.invalid &&
+        mediaForm.controls.rating.touched
+      ) {
+        <p class="error">
+          La note doit être comprise entre 1 et 5.
+        </p>
+      }
+    </div>
+
+    @if (submitError(); as message) {
+      <p class="error" role="alert">{{ message }}</p>
+    }
+
+    <button type="submit" [disabled]="saving()">
+      {{ submitLabel() }}
+    </button>
+
+    <a routerLink="/">Annuler</a>
+
+  </form>
+}
