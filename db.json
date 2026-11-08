@@ -1,0 +1,32 @@
+{
+  "books": [
+    {
+      "id": 1,
+      "title": "Dune",
+      "author": "Frank Herbert",
+      "addedAt": "2026-10-17T16:20:36.604Z",
+      "read": true
+    },
+    {
+      "id": 2,
+      "title": "Project Hail Mary",
+      "author": "Andy Weir",
+      "addedAt": "2026-10-17T16:20:36.604Z",
+      "read": true
+    },
+    {
+      "title": "test",
+      "author": "authortest",
+      "read": false,
+      "addedAt": "2026-10-17T16:20:36.604Z",
+      "id": 4
+    },
+    {
+      "title": "Berserk",
+      "author": "Kentaro Miura",
+      "read": true,
+      "addedAt": "2026-10-17T16:21:38.534Z",
+      "id": 5
+    }
+  ]
+}

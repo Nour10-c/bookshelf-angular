@@ -1,0 +1,25 @@
+.book-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+}
+.badge {
+  font-size: 0.8rem;
+  color: green;
+}
+.badge-unread {
+  color: gray;
+}
+
+.is-read {
+  border-left: 4px solid green;
+}
+.actions {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+}
+.danger {
+  color: #c0392b;
+}
