@@ -12,23 +12,16 @@
   border-color: #16cbb9;
 }
 
+/* Zone de l'affiche */
 .poster {
   position: relative;
-  display: flex;
-  min-height: 175px;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
+  height: 230px;
   overflow: hidden;
-  padding: 17px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 16px;
   background: linear-gradient(145deg, #234e62, #18233f);
-}
-
-.poster::after {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(0deg, rgb(5 12 25 / 80%), transparent 75%);
-  content: "";
 }
 
 .poster-movie {
@@ -47,40 +40,85 @@
   background: linear-gradient(145deg, #4b8265, #254a4c 65%, #111a30);
 }
 
-.poster-type,
-.poster strong,
+/* Image réelle */
+.poster-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.35s;
+}
+
+.media-card:hover .poster-image {
+  transform: scale(1.05);
+}
+
+/* Voile pour rendre le titre lisible */
+.poster::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    0deg,
+    rgb(5 12 25 / 90%),
+    rgb(5 12 25 / 5%) 75%
+  );
+  content: "";
+  pointer-events: none;
+}
+
+/* Affiche de remplacement */
+.poster-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  color: white;
+}
+
+.poster-placeholder strong {
+  max-width: 85%;
+  text-align: center;
+  font-size: 23px;
+}
+
 .poster-symbol {
+  color: rgb(255 255 255 / 35%);
+  font-size: 55px;
+}
+
+/* Éléments affichés au-dessus de l'image */
+.poster-type,
+.poster-title {
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 .poster-type {
+  align-self: flex-start;
+  margin-bottom: auto;
   padding: 5px 8px;
   border: 1px solid rgb(255 255 255 / 25%);
   border-radius: 20px;
-  background: rgb(0 0 0 / 20%);
+  background: rgb(0 0 0 / 35%);
   color: #e6ffff;
   font-size: 9px;
   font-weight: 800;
   letter-spacing: 1px;
 }
 
-.poster strong {
-  max-width: 100%;
+.poster-title {
   color: white;
-  font-size: 23px;
+  font-size: 21px;
   line-height: 1.2;
   overflow-wrap: anywhere;
 }
 
-.poster-symbol {
-  position: absolute;
-  top: 35px;
-  right: 22px;
-  color: rgb(255 255 255 / 25%);
-  font-size: 55px;
-}
-
+/* Informations */
 .card-content {
   padding: 15px;
 }
@@ -99,6 +137,7 @@
 
 .card-title-row h3 a {
   color: white;
+  text-decoration: none;
 }
 
 .card-title-row h3 a:hover {
@@ -118,6 +157,7 @@
   font-size: 11px;
 }
 
+/* Statuts */
 .status {
   display: inline-block;
   padding: 5px 9px;
@@ -148,6 +188,7 @@
   font-size: 10px;
 }
 
+/* Boutons */
 .actions {
   display: flex;
   flex-wrap: wrap;

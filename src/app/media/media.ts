@@ -10,5 +10,6 @@ export interface WatchItem {
   platform: string;
   status: WatchStatus;
   rating?: number;
+  posterUrl?: string;
   addedAt: string;
 }

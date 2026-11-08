@@ -1,5 +1,4 @@
-
-import { Component, input, output } from '@angular/core';
+import { Component, computed, input, output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { WatchItem } from '../media';
@@ -15,6 +14,21 @@ export class MediaCard {
 
   advanceStatus = output<number>();
   remove = output<number>();
+
+    /** Passe à true si l'image ne charge pas : on retombe sur l'affiche dégradée. */
+  private readonly imageFailed = signal(false);
+
+  protected readonly hasImage = computed(() => !!this.item().posterUrl && !this.imageFailed());
+
+  protected onImageError(): void {
+    this.imageFailed.set(true);
+  }
+
+  protected readonly posterFailed = signal(false);
+
+  protected onPosterError(): void {
+    this.posterFailed.set(true);
+  }
 
   protected onAdvanceClick(): void {
     this.advanceStatus.emit(this.item().id);

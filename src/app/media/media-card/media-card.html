@@ -7,6 +7,22 @@
     [class.poster-anime]="item().type === 'anime'"
     [class.poster-documentary]="item().type === 'documentary'"
   >
+
+    @if (item().posterUrl && !posterFailed()) {
+      <img
+        class="poster-image"
+        [src]="item().posterUrl"
+        [alt]="'Affiche de ' + item().title"
+        loading="lazy"
+        (error)="onPosterError()"
+      />
+    } @else {
+      <div class="poster-placeholder">
+        <span class="poster-symbol">✦</span>
+        <strong>{{ item().title }}</strong>
+      </div>
+    }
+
     <span class="poster-type">
       @switch (item().type) {
         @case ('movie') { FILM }
@@ -16,9 +32,8 @@
       }
     </span>
 
-    <strong>{{ item().title }}</strong>
+    <strong class="poster-title">{{ item().title }}</strong>
 
-    <span class="poster-symbol">✦</span>
   </div>
 
   <div class="card-content">
@@ -50,9 +65,12 @@
       }
     </span>
 
-    <small>Ajouté le {{ item().addedAt | date:'mediumDate' }}</small>
+    <small>
+      Ajouté le {{ item().addedAt | date:'mediumDate' }}
+    </small>
 
     <div class="actions">
+
       <a [routerLink]="['/watchlist', item().id, 'edit']">
         Modifier
       </a>
@@ -68,7 +86,7 @@
       >
         Supprimer
       </button>
-    </div>
 
+    </div>
   </div>
 </article>
