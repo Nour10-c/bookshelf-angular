@@ -1,18 +1,43 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BookForm } from './book-form';
+import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
+import {
+  HttpTestingController,
+  provideHttpClientTesting,
+} from '@angular/common/http/testing';
 
-describe('BookForm', () => {
-  let component: BookForm;
-  let fixture: ComponentFixture<BookForm>;
+import { MediaForm } from './media-form';
+
+describe('MediaForm', () => {
+  let component: MediaForm;
+  let fixture: ComponentFixture<MediaForm>;
+  let httpMock: HttpTestingController;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BookForm],
+      imports: [MediaForm],
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+      ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(BookForm);
-    component = fixture.componentInstance;
+    httpMock = TestBed.inject(HttpTestingController);
+
+    fixture = TestBed.createComponent(MediaForm);
+
+    // Le service charge les médias dès sa création.
+    httpMock.expectOne('http://localhost:3000/watchlist').flush([]);
+
+    fixture.detectChanges();
     await fixture.whenStable();
+
+    component = fixture.componentInstance;
+  });
+
+  afterEach(() => {
+    httpMock.verify();
   });
 
   it('should create', () => {
